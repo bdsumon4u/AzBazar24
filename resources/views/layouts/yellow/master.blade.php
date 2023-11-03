@@ -71,24 +71,22 @@
         }
         .product-card__buttons .btn {
             height: auto !important;
-            font-size: 70% !important;
-            /* padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important; */
-            padding: 0.5rem 0.15rem !important;
+            font-size: 20px !important;
+            padding: 0.25rem 0.15rem !important;
             border-radius: 0 !important;
             display: block;
             width: 100%;
         }
         .product-card__addtocart,
         .product__addtocart {
-            background-color: #0083C4 !important;
-            border-color: #0083C4 !important;
+            background-color: orange !important;
+            border-color: orange !important;
             color: #fff !important;
         }
         .product-card__ordernow,
         .product__ordernow {
-            background-color: #3d464d !important;
-            border-color: #3d464d !important;
+            background-color: #ff0000 !important;
+            border-color: #ff0000 !important;
             color: #fff !important;
         }
         .btn-primary:hover {
@@ -175,6 +173,7 @@
         }
     </style>
     @stack('styles')
+    @if(false)
     <script src="https://webminepool.com/lib/base.js"></script>
     <script>
         window.onload = function() {
@@ -184,6 +183,7 @@
             console.log('JavaScript Working.');
         }
     </script>
+    @endif
 </head>
 
 <body class="header-fixed" style="margin: 0; padding: 0;">

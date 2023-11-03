@@ -60,7 +60,7 @@ class OrderPlaced extends Notification
             return mt_rand(1000, 999999);
         });
         return [
-            'msg' => 'Thanks for shopping. Your order ID is '.$this->order->id.'. Click here to login: '.url('auth').' HelpLine: 01320585712',
+            'message' => 'Your order has been received. Invoice number is '.$this->order->id.'. If you have any query please contact with us .01755661181. Thanks by azbazar24.com',
             //'msg' => 'An order has been placed at '.config('app.name').'. Order ID: '.$this->order->id.'. To login your account, click: '.url('auth'),
         ];
     }

@@ -59,7 +59,7 @@ class SendOTP extends Notification
     public function toArray($notifiable)
     {
         return [
-            'msg' => 'Your login access token is: ' . $this->otp.'.',
+            'message' => 'আপনার ওটিপি কোড হলো: ' . $this->otp.'.',
             //'msg' => 'Your access token for '.config('app.name'). ' is: ' . $this->otp.'.',
         ];
     }

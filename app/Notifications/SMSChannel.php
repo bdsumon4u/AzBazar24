@@ -27,11 +27,9 @@ class SMSChannel
 
         // Send notification to the $notifiable instance...
         $data = array_merge([
-            'type' => 'text',
-            'contacts' => $phone,
-            'label' => 'transactional',
-            'api_key' => config('services.bdwebs.api_key'),
-            'senderid' => config('services.bdwebs.senderid'),
+            'number' => $phone,
+            'password' => config('services.bdwebs.api_key'),
+            'username' => config('services.bdwebs.senderid'),
         ], $notification->toArray($notifiable));
 
 	$this->send_sms($data);
@@ -40,16 +38,21 @@ class SMSChannel
 
     private function send_sms($data)
     {
-//        Log::info('sending sms:', $data);
-        $url = "http://sms.bdwebs.com/smsapi";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        return $response;
+        // Log::info('sending sms:', $data);
+        // $url = "http://66.45.237.70/api.php";
+        
+        // Http::
+        // $ch = curl_init(); // Initialize cURL
+        // curl_setopt($ch, CURLOPT_URL,$url);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // $response = curl_exec($ch);
+        // info($response, $data);
+        // curl_close($ch);
+        // return $response;
+        
+        $message = urlencode($data['message']);
+        $url = "http://66.45.237.70/api.php?username={$data['username']}&password={$data['password']}&number={$data['number']}&message={$message}";
+        $response = Http::get($url);
     }
 }

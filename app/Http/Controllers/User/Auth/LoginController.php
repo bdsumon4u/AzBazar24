@@ -88,7 +88,7 @@ class LoginController extends Controller
 
             $this->sendOTP($user);
             return redirect()->back()->withInput()
-                ->with('token:sent', 'An access token has been sent to your mobile.');
+                ->with('token:sent', 'An OTP code has been sent to your mobile.');
         }
         return view('auth');
     }
@@ -98,7 +98,7 @@ class LoginController extends Controller
         $user = $this->getUser($request->login);
         $this->sendOTP($user);
         return redirect()->back()->withInput()
-            ->with('token:sent', 'An access token has been sent to your mobile.');
+            ->with('token:sent', 'An OTP code has been sent to your mobile.');
     }
 
     private function getUser($phone)
@@ -117,15 +117,18 @@ class LoginController extends Controller
      */
     private function sendOTP(&$user)
     {
+        info('sending otp');
         if (Cache::get($key = 'auth:'.\request()->get('login'))) {
             throw ValidationException::withMessages([
                 'password' => ['Please wait for token.'],
             ]);
         }
+        info('don\'t wait');
         $ttl = (property_exists($this, 'decayMinutes') ? $this->decayMinutes : 2) * 60;
         $otp = Cache::remember($key, $ttl, function () {
             return mt_rand(1000, 999999);
         });
+        info('sending '.$otp);
         $user->notify(new SendOTP($otp));
     }
 

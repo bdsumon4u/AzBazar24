@@ -24,8 +24,8 @@
                             </div>
                             @if($login)
                             <div class="form-group">
-                                <label>Enter Access Token</label> <span class="text-danger">*</span>
-                                <x-input type="text" name="password" placeholder="Access Token" />
+                                <label>Enter OTP Code</label> <span class="text-danger">*</span>
+                                <x-input type="text" name="password" placeholder="OTP Code" />
                                 <x-error field="password" />
                             </div>
                             <input type="hidden" id="remember" name="remember" value="true" />
