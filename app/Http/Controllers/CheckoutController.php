@@ -66,7 +66,7 @@ class CheckoutController extends Controller
                 $subtotal = is_array($products) ? array_reduce($products, function ($sum, $product) {
                     return $sum += $product['total'];
                 }) : $products->sum('total');
-                GoogleTagManagerFacade::set([
+                GoogleTagManagerFacade::flash([
                     'event' => 'purchase',
                     'ecommerce' => [
                         'currency' => 'BDT',
