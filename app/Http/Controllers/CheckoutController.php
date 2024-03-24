@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Spatie\GoogleTagManager\GoogleTagManagerFacade;
 
 class CheckoutController extends Controller
 {
@@ -62,6 +63,27 @@ class CheckoutController extends Controller
                     return $product != null; // Only Available Products
                 })->toArray();
 
+                $subtotal = is_array($products) ? array_reduce($products, function ($sum, $product) {
+                    return $sum += $product['total'];
+                }) : $products->sum('total');
+                GoogleTagManagerFacade::set([
+                    'event' => 'purchase',
+                    'ecommerce' => [
+                        'currency' => 'BDT',
+                        'transaction_id' => $order->id,
+                        'value' => $subtotal,
+                        'items' => array_map(function ($product) {
+                            return [
+                                'item_id' => $product['id'],
+                                'item_name' => $product['name'],
+                                'item_category' => 'N/A',
+                                'price' => $product['price'],
+                                'quantity' => $product['quantity'],
+                            ];
+                        }, $products),
+                    ],
+                ]);
+        
             $data['products'] = json_encode($products);
             $user = $this->getUser($data);
             $oldOrders = $user->orders()->get();
@@ -86,9 +108,7 @@ class CheckoutController extends Controller
                     'is_repeat' => $oldOrders->count() > 0,
                     'shipping_area' => $data['shipping'],
                     'shipping_cost' => setting('delivery_charge')->{$data['shipping'] == 'Inside Dhaka' ? 'inside_dhaka' : 'outside_dhaka'} ?? config('services.shipping.'.$data['shipping']),
-                    'subtotal'      => is_array($products) ? array_reduce($products, function ($sum, $product) {
-                        return $sum += $product['total'];
-                    }) : $products->sum('total'),
+                    'subtotal'      => $subtotal,
                 ],
             ];
 

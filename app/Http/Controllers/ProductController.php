@@ -6,6 +6,7 @@ use App\HomeSection;
 use App\Product;
 use App\Setting;
 use Illuminate\Http\Request;
+use Spatie\GoogleTagManager\GoogleTagManagerFacade;
 
 class ProductController extends Controller
 {
@@ -17,6 +18,17 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->search) {
+            GoogleTagManagerFacade::set([
+                'event' => 'search',
+                'search_term' => $request->search,
+            ]);
+        } else {
+            GoogleTagManagerFacade::set([
+                'event' => 'page_view',
+                'page_type' => 'shop',
+            ]);
+        }
        // \LaravelFacebookPixel::createEvent('PageView', $parameters = []);
         $section = null;
         $rows = 3;
